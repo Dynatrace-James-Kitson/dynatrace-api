@@ -1,6 +1,6 @@
 {
   "name": "custom.remote.python.thirdparty_dns",
-  "version": "1.021",
+  "version": "1.022",
   "type": "python",
   "entity": "CUSTOM_DEVICE",
   "technologies": [
@@ -33,6 +33,15 @@
     {
       "key": "host",
       "type": "String"
+    },
+    {
+      "key": "record_type",
+      "type": "Dropdown",
+      "dropdownValues": [
+        "A",
+        "AAAA"
+      ],
+      "defaultValue": "A"
     },
     {
       "key": "test_location",
@@ -100,10 +109,16 @@
         "displayOrder": 4
       },
       {
+        "key": "record_type",
+        "displayName": "Address record type",
+        "displayHint": "If looking up IPv4 addresses use \"A\" type. For IPv6 use \"AAAA\"",
+        "displayOrder": 5
+      },
+      {
         "key": "frequency",
         "displayName": "(Optional) Frequency",
         "displayHint": "Frequency in minutes, default: 15",
-        "displayOrder": 5
+        "displayOrder": 6
       },
       {
         "key": "test_timeout",

@@ -43,6 +43,7 @@ class DNSExtension(RemoteBasePlugin):
         log.setLevel(self.config.get("log_level"))
         dns_server = self.config.get("dns_server")
         host = self.config.get("host")
+        record_type = self.config.get("record_type", "A")
 
         step_title = f"{host} (DNS: {dns_server})"
         test_title = self.config.get("test_name") if self.config.get("test_name") else step_title
@@ -53,8 +54,8 @@ class DNSExtension(RemoteBasePlugin):
 
         if self.executions % frequency == 0:
             timeout = int(self.config.get("test_timeout", 2)) or 2
-            success, response_time = test_dns(dns_server, host, timeout)
-            log.info(f"DNS test, DNS server: {dns_server}, host: {host}, success: {success}, time: {response_time} ")
+            success, response_time = test_dns(dns_server, host, timeout, record_type)
+            log.info(f"DNS test, DNS server: {dns_server}, host: {host}, record_type: {record_type}, success: {success}, time: {response_time} ")
 
             if not success:
                 self.failures_detected += 1
@@ -96,14 +97,14 @@ class DNSExtension(RemoteBasePlugin):
         self.executions += 1
 
 
-def test_dns(dns_server: str, host: str, timeout: int) -> (bool, int):
+def test_dns(dns_server: str, host: str, timeout: int, record_type: str) -> (bool, int):
     res = resolver.Resolver(configure=False)
     res.nameservers = [dns_server]
     res.lifetime = res.timeout = timeout
 
     start = datetime.now()
     try:
-        res.query(host, "A")
+        res.query(host, record_type)
     except Exception as e:
         log.error(f"Failed executing the DNS test: {e}")
         return False, int((datetime.now() - start).total_seconds() * 1000)
