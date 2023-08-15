@@ -111,7 +111,7 @@
       {
         "key": "record_type",
         "displayName": "Address record type",
-        "displayHint": "If looking up an IPv4 address use \"A\" type. For IPv6 use \"AAAA\"",
+        "displayHint": "If looking up IPv4 addresses use \"A\" type. For IPv6 use \"AAAA\"",
         "displayOrder": 5
       },
       {
